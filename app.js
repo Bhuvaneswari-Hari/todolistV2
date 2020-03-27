@@ -21,9 +21,6 @@ const itemsSchema = {
 
 const Item = mongoose.model("Item", itemsSchema);
 
-// const items = ["Buy Food", "Cook Food", "Eat Food"];
-// const workItems = [];
-
 const item1 = new Item({
   name: "Buy Food"
 });
@@ -60,7 +57,6 @@ const day = date.getDate();
     } else{
       res.render("list", {listTitle: day, newListItems: foundItem});
     }
-    //console.log(foundItem);
   });
 });
 
@@ -70,8 +66,6 @@ app.get("/:customListName", function(req, res){
   List.findOne({name: customListName}, function(err, foundList){
     if(!err){
       if(!foundList){
-        //create new list
-        //console.log("Doesnot exists");
 
         const list = new List({
           name: customListName,
@@ -82,7 +76,6 @@ app.get("/:customListName", function(req, res){
 
       }else{
         //show existing list
-        //console.log("exists");
         res.render("list",  {listTitle: foundList.name, newListItems: foundList.items})
       }
     }
@@ -107,15 +100,6 @@ app.post("/", function(req, res){
       res.redirect("/"+listName);
     })
   }
-
-
-  // if (req.body.list === "Work") {
-  //   workItems.push(item);
-  //   res.redirect("/work");
-  // } else {
-  //   items.push(item);
-  //   res.redirect("/");
-  // }
 });
 
 app.post("/delete", function(req, res){
@@ -135,14 +119,8 @@ if(listName === "Today"){
     }
   })
 }
-
-
 });
 
-
-// app.get("/work", function(req,res){
-//   res.render("list", {listTitle: "Work List", newListItems: workItems});
-// });
 
 app.get("/about", function(req, res){
   res.render("about");
