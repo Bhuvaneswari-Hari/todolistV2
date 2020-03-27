@@ -5,11 +5,9 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
 const date = require(__dirname + "/date.js");
-
 const app = express();
 
 app.set('view engine', 'ejs');
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
@@ -42,8 +40,6 @@ const List = mongoose.model("List", listSchema);
 
 
 app.get("/", function(req, res) {
-
-const day = date.getDate();
   Item.find({}, function(err, foundItem){
     if(foundItem.length === 0){
       Item.insertMany(defaultItems, function(err){
@@ -55,7 +51,7 @@ const day = date.getDate();
       });
       res.redirect("/");
     } else{
-      res.render("list", {listTitle: day, newListItems: foundItem});
+      res.render("list", {listTitle: "Today", newListItems: foundItem});
     }
   });
 });
@@ -76,13 +72,11 @@ app.get("/:customListName", function(req, res){
 
       }else{
         //show existing list
-        res.render("list",  {listTitle: foundList.name, newListItems: foundList.items})
+        res.render("list",  {listTitle: foundList.name, newListItems: foundList.items});
       }
     }
   });
 });
-
-
 
 app.post("/", function(req, res){
   const itemName = req.body.newItem;
